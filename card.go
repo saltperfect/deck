@@ -8,6 +8,7 @@ import (
 	"sort"
 	"time"
 )
+
 // Suit enum represents cards suit
 type Suit uint8
 
@@ -89,7 +90,8 @@ func Sort(less func([]Card) func(i, j int) bool) func([]Card) []Card {
 		return c
 	}
 }
-// Less function that is getting used in default sort. take this function as a example for the type function need to be passed in Sort 
+
+// Less function that is getting used in default sort. take this function as a example for the type function need to be passed in Sort
 func Less(cards []Card) func(i, j int) bool {
 	return func(i, j int) bool {
 		return absRank(cards[i]) < absRank(cards[j])
@@ -106,14 +108,15 @@ var suffleRand = rand.New(rand.NewSource(time.Now().Unix()))
 func Suffle(cards []Card) []Card {
 	ret := make([]Card, len(cards))
 
-	for i, j := range suffleRand.Perm(len(cards)){
+	for i, j := range suffleRand.Perm(len(cards)) {
 		ret[i] = cards[j]
 	}
 	return ret
 }
+
 // Use to add n number of Jokers
 func Jokers(n int) func([]Card) []Card {
-	return func (cards []Card) []Card  {
+	return func(cards []Card) []Card {
 		jslice := make([]Card, n)
 		for i := range jslice {
 			jslice[i] = Card{Suit: Joker, Rank: Rank(i)}
@@ -121,6 +124,7 @@ func Jokers(n int) func([]Card) []Card {
 		return append(cards, jslice...)
 	}
 }
+
 // Filter out cards before generating the new deck
 // takes in a function(Card) bool and return a funtional option
 func Filter(f func(Card) bool) func([]Card) []Card {
@@ -139,7 +143,7 @@ func Filter(f func(Card) bool) func([]Card) []Card {
 func Deck(n int) func([]Card) []Card {
 	return func(c []Card) []Card {
 		var ret []Card
-		for i:=0; i < n; i++ {
+		for i := 0; i < n; i++ {
 			ret = append(ret, c...)
 		}
 		return ret
